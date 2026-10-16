@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Jornada em um Filme de Ação</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+        <!-- Tela Inicial -->
+        <section id="screen-start" class="screen active">
+            <h1 class="title">Sua Jornada em um Filme de Ação</h1>
+            <p class="description">
+                Você é o protagonista de um grande filme de ação de Hollywood. Suas escolhas vão definir como será a história e o destino da sua missão.
+            </p>
+            <div class="options">
+                <button class="btn btn-primary" onclick="startQuiz()">Iniciar História</button>
+            </div>
+        </section>
+
+        <!-- Perguntas do Quiz -->
+        <section id="screen-quiz" class="screen">
+            <h1 id="question-title" class="title">Título da Pergunta</h1>
+            <p id="question-text" class="description">Texto do contexto da pergunta...</p>
+            <div class="options">
+                <button id="opt1" class="btn btn-primary" onclick="selectOption(0)">Opção 1</button>
+                <button id="opt2" class="btn btn-dark" onclick="selectOption(1)">Opção 2</button>
+            </div>
+        </section>
+
+        <!-- Tela Final -->
+        <section id="screen-end" class="screen">
+            <h1 class="title">O Script do Seu Filme!</h1>
+            <p id="final-story" class="description story-text">
+                O resultado da sua jornada aparecerá aqui...
+            </p>
+            <div class="options">
+                <button class="btn btn-primary" onclick="restartQuiz()">Jogar Novamente</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Dados das Perguntas
+        const questions = [
+            {
+                title: "Infiltração na Base Inimiga",
+                text: "Sua missão é invadir uma fortaleza altamente protegida. Como você decide entrar?",
+                options: [
+                    { text: "Entrar pelos dutos de ventilação sem ser visto.", summary: "Você escolheu a furtividade e invadiu a base sem disparar nenhum alarme." },
+                    { text: "Derrubar a porta da frente com uma explosão estratégica.", summary: "Você decidiu entrar com tudo, criando uma grande explosão e surpreendendo os guardas." }
+                ]
+            },
+            {
+                title: "Encontro de Alto Risco",
+                text: "Você é encurralado por cinco mercenários no corredor principal. O que você faz?",
+                options: [
+                    { text: "Usar artes marciais e o ambiente para derrotar um a um.", summary: "Nas lutas corpo a corpo, você usou habilidades incríveis de artes marciais para superar seus inimigos." },
+                    { text: "Sacar suas armas duplas e iniciar um tiroteio frenético.", summary: "No tiroteio, suas armas duplas garantiram que nenhum inimigo ficasse de pé." }
+                ]
+            },
+            {
+                title: "Perseguição Alucinante",
+                text: "O vilão foge com o artefato secreto. Qual veículo você escolhe para ir atrás dele?",
+                options: [
+                    { text: "Uma moto esportiva veloz cortando o tráfego pesado.", summary: "Na perseguição, você pilotou uma moto esportiva fazendo manobras arriscadas no trânsito." },
+                    { text: "Um helicóptero tático sobrevoando a cidade.", summary: "Na perseguição, você assumiu o controle de um helicóptero e seguiu o vilão do alto dos céus." }
+                ]
+            },
+            {
+                title: "O Dilema do Herói",
+                text: "O vilão ativa uma bomba no centro da cidade para tentar te atrasar. O que você prioriza?",
+                options: [
+                    { text: "Desarmar a bomba e salvar milhares de inocentes.", summary: "Diante do perigo, você colocou a vida das pessoas em primeiro lugar e desarme a bomba com sucesso." },
+                    { text: "Continuar perseguindo o vilão para impedi-lo para sempre.", summary: "Focado no objetivo final, você ignorou as distrações para garantir a captura imediata do vilão." }
+                ]
+            },
+            {
+                title: "O Confronto Final",
+                text: "Você e o vilão frente a frente no topo de um arranha-céu sob chuva intensa. Como termina essa batalha?",
+                options: [
+                    { text: "Desarmá-lo e prendê-lo para responder à justiça.", summary: "No confronto final, você demonstrou honra e justiça ao render o vilão e entregá-lo às autoridades." },
+                    { text: "Terminar o combate com um golpe épico que o arremessa do prédio.", summary: "No confronto final, você encerrou o combate de forma espetacular com um golpe épico inesquecível." }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let selectedAnswers = [];
+
+        function startQuiz() {
+            currentQuestion = 0;
+            selectedAnswers = [];
+            document.getElementById("screen-start").classList.remove("active");
+            document.getElementById("screen-quiz").classList.add("active");
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question-title").innerText = q.title;
+            document.getElementById("question-text").innerText = q.text;
+            document.getElementById("opt1").innerText = q.options[0].text;
+            document.getElementById("opt2").innerText = q.options[1].text;
+        }
+
+        function selectOption(index) {
+            selectedAnswers.push(questions[currentQuestion].options[index].summary);
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById("screen-quiz").classList.remove("active");
+            document.getElementById("screen-end").classList.add("active");
+
+            const finalStoryText = "Aqui está a sinopse do seu filme de ação:\n\n" + selectedAnswers.join(" ") + " Essa jornada eletrizante consagrou você como o maior herói do cinema de ação!";
+            document.getElementById("final-story").innerText = finalStoryText;
+        }
+
+        function restartQuiz() {
+            document.getElementById("screen-end").classList.remove("active");
+            document.getElementById("screen-start").classList.add("active");
+        }
+    </script>
+</body>
+</html>
